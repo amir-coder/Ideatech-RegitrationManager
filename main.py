@@ -1,10 +1,11 @@
-from lib import qr_code_generator
+from lib.controllers import qr_code_generator
+from lib.models.user import User
 
 
 def main():
-    #testing qr code creation
-    gen = qr_code_generator.QrCodeGenerator()
-    gen.generate(["123123", "456456"])
+    #testing user generation
+    user  = User("email@gmail.com", 'Amir', 'Almamou')
+    print(user.toDict())
     return 0
 
 
