@@ -26,7 +26,7 @@ class User:
     def toJson(self):
         #converting to dict
         data = {
-            id:self.id,
+            "id":self.id,
             "email": self.email,
             "firstname" : self.firstname,
             "familyname" : self.familyname,
@@ -53,4 +53,4 @@ class User:
         return data
     
     def  saveToDB(self):
-        id = ReqHandler.userToDB(self.toDict)
+        self.id = ReqHandler.userToDB(self.toDict)
