@@ -6,4 +6,5 @@ class Role(enum.Enum):
     orgenizer = 'orgenizer'
     in_comp = 'in_comp'
     in_workshop = 'in_workshop'
+    vip = 'vip'
     default = 'in_comp'

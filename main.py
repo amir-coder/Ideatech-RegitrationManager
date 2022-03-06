@@ -4,8 +4,10 @@ from lib.models.user import User
 
 def main():
     #testing user generation
-    user  = User("email@gmail.com", 'Amir', 'Almamou')
+    user  = User("testpy9@gmail.com", 'Amir', 'Almamou')
+    user.saveToDB()
     print(user.toDict())
+    user.exportToQR()
     return 0
 
 

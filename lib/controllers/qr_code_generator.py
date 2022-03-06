@@ -1,24 +1,23 @@
 
+from fileinput import filename
 import qrcode
 
-class Generator():
-    exportsPath = "./exports"
+class QrCodeGenerator():
+    exportsPath = "./exports/"
     
     
     def __init__(self):
         self.__class__.exportsPath = "./exports/"
     
-    def qr_from_id(self, id):
+    def qr_from_id(id):
         qrobj = qrcode.make(id)
         return qrobj
     
     @classmethod
     def export_img(cls, qrobj, filename = "name"):
         filename = filename + ".png"
-        qrobj.save(cls.exportsPath + filename)
+        qrobj.save(cls.exportsPath  + filename)
     
-    def generate(self, ids = []):
-
-        for id in ids:
-            qrobj = self.qr_from_id(id)
-            self.export_img(qrobj, id)
+    def generate(id, filename = 'filename'):
+        qrobj = __class__.qr_from_id(id)
+        __class__.export_img(qrobj, filename= filename)
