@@ -3,8 +3,8 @@
 import json
 from lib.controllers.qr_code_generator import QrCodeGenerator
 from lib.controllers.req_handler import ReqHandler
-from lib.models.role import Role
-from lib.models.workshop import Workshop
+from lib.consts.roles import Role
+#from lib.consts.workshops import WorkshopEnum
 
 
 class User:
@@ -15,9 +15,9 @@ class User:
     familyname = ''
     checkedIn = False
     role = Role.default.value
-    workshop = Workshop.default.value
+    workshop = 'no_workshop'
 
-    def __init__(self, email, firstname, familyname, checkedIn=False, role=Role.default, workshop= Workshop.default):
+    def __init__(self, email, firstname, familyname, checkedIn=False, role=Role.default, workshop= 'no_workshop'):
         self.email = email
         self.firstname = firstname
         self.familyname = familyname
@@ -33,8 +33,8 @@ class User:
             "firstname" : self.firstname,
             "familyname" : self.familyname,
             "checkedIn" : 'True' if self.checkedIn else 'False' ,
-            "role" : self.role.value,
-            "workshop" : self.workshop.value,
+            "role" : self.role,
+            "workshop" : self.workshop,
         }
 
         #converting to json
@@ -49,11 +49,18 @@ class User:
             "firstname" : self.firstname,
             "familyname" : self.familyname,
             "checkedIn" : json.dumps(self.checkedIn),
-            "role" : self.role.value,
-            "workshop" : self.workshop.value,
+            "role" : self.role,
+            "workshop" : self.workshop,
         }
         return data
     
+    def toCash(self):
+        data = {
+            "id": self.id,
+            "email": self.email,
+        }
+        return data
+
     def saveToDB(self):
         self.id = ReqHandler.userToDB(data = self.toDict())
     
