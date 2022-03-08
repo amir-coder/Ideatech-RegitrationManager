@@ -10,7 +10,7 @@ from lib.models.workshop import Workshop
 def main():
     #testing user generation
     #print(TabDataController.getWorkshops())
-    MainController.registerWorkshops()
+    MainController.registerCompetition()
 
 
 

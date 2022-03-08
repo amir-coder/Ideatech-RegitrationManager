@@ -36,3 +36,15 @@ class MainController:
         CashController.addUsersToCash(mobile_workshop.getParticipants())
         CashController.addUsersToCash(react_workshop.getParticipants())
         CashController.addUsersToCash(uiux_workshop.getParticipants())
+
+    @classmethod
+    def registerCompetition(cls):
+
+        #read participants
+        participants = TabDataController.readCompetitionParticipants()
+        #save participants to DB
+        for participant in participants:
+            participant.saveToDB()
+
+        #save to cash file
+        CashController.addUsersToCash(participants, isParticipant=True)

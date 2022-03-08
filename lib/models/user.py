@@ -16,26 +16,20 @@ class User:
     checkedIn = False
     role = Role.default.value
     workshop = 'no_workshop'
+    team = ''
 
-    def __init__(self, email, firstname, familyname, checkedIn=False, role=Role.default, workshop= 'no_workshop'):
+    def __init__(self, email, firstname, familyname, checkedIn=False, role=Role.default.value, workshop= 'no_workshop', team = ''):
         self.email = email
         self.firstname = firstname
         self.familyname = familyname
         self.checkedIn = checkedIn
         self.role = role
         self.workshop = workshop
+        self.team = team
 
     def toJson(self):
         #converting to dict
-        data = {
-            #"id":self.id,
-            "email": self.email,
-            "firstname" : self.firstname,
-            "familyname" : self.familyname,
-            "checkedIn" : 'True' if self.checkedIn else 'False' ,
-            "role" : self.role,
-            "workshop" : self.workshop,
-        }
+        data = self.toDict()
 
         #converting to json
         jsonData = json.dumps(data)
@@ -50,6 +44,7 @@ class User:
             "familyname" : self.familyname,
             "checkedIn" : json.dumps(self.checkedIn),
             "role" : self.role,
+            "team": self.team,
             "workshop" : self.workshop,
         }
         return data

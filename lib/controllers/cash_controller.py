@@ -7,7 +7,7 @@ from lib.models.user import User
 
 class CashController():
     workshops_cash_path = './assets/cash/workshops_cash.csv'
-    participants_cash_path = './assets/cash/workshops_cash.csv'
+    participants_cash_path = './assets/cash/participants_cash.csv'
     cols = ['email', 'id']
     
     @classmethod
@@ -24,4 +24,5 @@ class CashController():
                 print('LOG: CashController: cannot add ' + userCash['id'] + ' with default id')
         
         df.to_csv(path)
+        del df
 
