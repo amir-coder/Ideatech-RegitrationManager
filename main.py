@@ -1,6 +1,8 @@
+
 from lib.consts.workshops import WorkshopEnum
 from lib.controllers import qr_code_generator
 from lib.controllers.cash_controller import CashController
+from lib.controllers.email_controller import EmailController
 from lib.controllers.mainController import MainController
 from lib.controllers.tab_data_controller import TabDataController
 from lib.models.user import User
@@ -9,9 +11,8 @@ from lib.models.workshop import Workshop
 
 def main():
     #testing user generation
-    #print(TabDataController.getWorkshops())
-    MainController.registerCompetition()
-
+    #EmailController.sendEmail(subject='Test Email', toAdress='a_almamma@estin.dz', content= 'test content', atatchementPath='exports/landing_img.png')
+    MainController.sendEmails()
 
 
 # ai_workshop = Workshop(name= WorkshopEnum.ds.value)

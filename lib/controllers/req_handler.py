@@ -1,8 +1,7 @@
 import json
 import requests
-import configparser
 
-from lib.config import Config
+from config import Config
 
 
 class ReqHandler:

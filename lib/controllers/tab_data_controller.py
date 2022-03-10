@@ -17,6 +17,7 @@ class TabDataController:
 
     #filter columns
     cols = ['firstname', 'familyname', 'email']
+    cashCols = ['email', 'id']
 
     workshopsDF = {
         "react": pd.read_csv('./assets/workshops/Workshop results - React.csv', usecols=cols),
@@ -33,7 +34,13 @@ class TabDataController:
         'team_field2': 14,
     }
 
+    orgenizersDFCols = {
+        'email': 1,
+        'firstname': 2,
+    }
+
     competitionParticipantsDF = pd.read_csv('./assets/competition/ideatech registrations - all-final.csv').astype(str)
+    orgenizersDF = pd.read_csv('./assets/orgenizers/ideatech registrations - all-final.csv').astype(str)
 
     #TODO: add competition DF
 
@@ -76,5 +83,46 @@ class TabDataController:
                 ))
         
         return participants
+
+
+    #return  list of Users from csv ideatech registrations
+    @classmethod
+    def readCash(cls, cashPath = './assets/cash/test.csv'):
+        df = pd.read_csv(cashPath, usecols=cls.cashCols).astype(str)
+        adresses = []
+        tmp = {
+            'email' :'',
+            'id' : '',
+        }
+
+        for index in range(0, df.shape[0] ):
+            tmp = {
+            'email' :df.at[index, 'email'],
+            'id' : df.at[index, 'id'],
+            }
+            adresses.append(tmp)
+            print(index)
+        
+        return adresses
+
+        
+    @classmethod
+    def readOrgenizers(cls):
+        df = cls.orgenizersDF
+        orgenizers = []
+        #adding the participants and saving to cash
+        for index in range(0, df.shape[0]):
+            email = df.iat[index, cls.orgenizersDFCols['email']]
+            if email != 'nan':
+                #register user
+                firstname = df.iat[index, cls.orgenizersDFCols['firstname']]
+                familyname = ''
+                orgenizers.append(User(
+                    email=email,
+                    familyname=familyname,
+                    firstname=firstname,
+                ))
+        
+        return orgenizers
 
 

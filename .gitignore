@@ -1,4 +1,4 @@
 exports/
 assets/
 qrcode/
-lib/config.py
+config.py

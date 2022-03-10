@@ -4,6 +4,8 @@
 #class that contains global functions
 from lib.consts.workshops import WorkshopEnum
 from lib.controllers.cash_controller import CashController
+from lib.controllers.email_controller import EmailController
+from lib.controllers.qr_code_generator import QrCodeGenerator
 from lib.controllers.tab_data_controller import TabDataController
 from lib.models.workshop import Workshop
 
@@ -41,10 +43,24 @@ class MainController:
     def registerCompetition(cls):
 
         #read participants
-        participants = TabDataController.readCompetitionParticipants()
+        orgenizers = TabDataController.readOrgenizers()
         #save participants to DB
-        for participant in participants:
-            participant.saveToDB()
-
+        for orgenizer in orgenizers:
+            orgenizer.saveToDB()
+            
         #save to cash file
-        CashController.addUsersToCash(participants, isParticipant=True)
+        CashController.addUsersToCash(orgenizers, isParticipant=True)
+    
+    @classmethod
+    def sendEmails(cls, mailsListPath = './assets/cash/test.csv'):
+        #read cash
+        list = TabDataController.readCash(cashPath=mailsListPath)
+        #generate qrcodes
+        for item in list:
+            QrCodeGenerator.generate(id=item['id'],filename=str(item['id']))
+            EmailController.generateFormatedEmailFromTemplate(qrCodePath= str(item['id']) + '.png')
+            EmailController.sendEmail(subject='Testing From Python', toAdress=item['email'])
+
+            #subject='Testing From Pythno', toAdress=item['email']
+        #generate template
+        #send emails
