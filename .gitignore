@@ -1,4 +1,5 @@
-exports/
-assets/
+exports/*
+assets/*
 qrcode/
-config.py
+*.env
+

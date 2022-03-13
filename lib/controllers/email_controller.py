@@ -1,28 +1,54 @@
 import base64
-import email
-from pydoc import classname
-from config import Config
-import smtplib 
-import imghdr
 import yagmail
-from email.message import EmailMessage
 from bs4 import BeautifulSoup
+import os
+from sendgrid import SendGridAPIClient
+from sendgrid.helpers.mail import Mail
 
 
 class EmailController:
     #smtp server
-    s = yagmail.SMTP(user = Config.EMAIL, password = Config.MDP)
-    templatePath = './template/index.html'
+    s = yagmail.SMTP(user = os.environ['ORG_EMAIL'], password = os.environ['ORG_MDP'])
+    templatePath = './template/template.html'
 
     @classmethod
-    def sendEmail(cls, subject = 'subject',  toAdress = 'email@gmail.com', ):
+    def sendFormatedEmail(cls, subject = 'subject',  toAdress = 'email@gmail.com', ):
         #create msg object
         
-        with open('./template/index3.html', 'r') as f:
+        with open('./template/template.html', 'r') as f:
             content = f.read()
         #send msg
-        cls.s.send(to=toAdress, subject=subject, contents = content, )
+        message = Mail(
+        from_email= os.environ['EMAIL'],
+        to_emails= toAdress,
+        subject= subject,
+        html_content=str(content))
+        try:
+            sg = SendGridAPIClient(os.environ['SENDGRID_API_KEY'])
+            response = sg.send(message)
+            print(response.status_code)
+            print(response.body)
+            print(response.headers)
+        except Exception as e:
+            print(str(e))
 
+    @classmethod
+    def sendEmail(cls, subject = '[ByteCraft] IdeaTech check-in protocol!',  toAdress = 'email@gmail.com', attachement = ''):
+
+        # with open('./template/content.txt' , "rb") as file:
+        #     cls.s.send(to=toAdress, subject=subject, contents = str(file.read()), attachments = attachement)
+        
+        cls.s.send(to=toAdress, subject=subject, 
+        contents = '''Hey there,
+I hope this email finds you excited to rock this weekend!
+
+This a gentle invitation to save this QR code, for check-in purposes to access event's different activities.
+Download it and keep it close!
+
+Don't forget to bring your personal computers & gadgets.
+
+Please accept our distinguished salutations.''',
+        attachments = attachement)
     @classmethod
     def generateBase64FromQR(cls, qrCodePath = ""):
         qrCodePath = './exports/' + qrCodePath
@@ -50,7 +76,9 @@ class EmailController:
         
         f.close()
         html_file.close()
+    
+
     @classmethod
     def sendEmailtest(cls, adress = "", qrCodePath = ""):
-        with open('./template/index2.html', 'w') as f:
+        with open('./template/email.html', 'w') as f:
             f.write(cls.generateFormatedEmailFromTemplate(qrCodePath))

@@ -1,7 +1,7 @@
 
 
 import json
-from lib.controllers.qr_code_generator import QrCodeGenerator
+from lib.controllers.qr_code_controller import QrCodeGenerator
 from lib.controllers.req_handler import ReqHandler
 from lib.consts.roles import Role
 #from lib.consts.workshops import WorkshopEnum
@@ -49,7 +49,7 @@ class User:
         }
         return data
     
-    def toCash(self):
+    def toCache(self):
         data = {
             "id": self.id,
             "email": self.email,

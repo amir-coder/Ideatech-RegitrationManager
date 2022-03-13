@@ -1,13 +1,15 @@
+import base64
 import json
+import os
 import requests
 
-from config import Config
+from lib.controllers.email_controller import EmailController
 
 
 class ReqHandler:
 
-    port = Config.PORT
-    url = Config.ConnectionURL
+    port = os.environ['PORT']
+    url = os.environ['ConnectionURL']
     usersRoute = url + ':' + port +'/users'
 
 
@@ -30,3 +32,16 @@ class ReqHandler:
             data = json.loads(res.content)
             print(data['_id'])
             return data['_id']
+    
+    def uploadImg(path=''):
+        url = ''
+        with open('./exports/'  + path, "rb") as file:
+            url = "https://api.imgbb.com/1/upload"
+            payload = {
+                "key":os.environ['IMG_UPLOAD_KEY'],
+                "image": base64.b64encode(file.read()),
+            }
+            res = requests.post(url, payload)
+        print(res)
+        file.close()
+        return res

@@ -17,7 +17,7 @@ class TabDataController:
 
     #filter columns
     cols = ['firstname', 'familyname', 'email']
-    cashCols = ['email', 'id']
+    cacheCols = ['email', 'id']
 
     workshopsDF = {
         "react": pd.read_csv('./assets/workshops/Workshop results - React.csv', usecols=cols),
@@ -40,7 +40,7 @@ class TabDataController:
     }
 
     competitionParticipantsDF = pd.read_csv('./assets/competition/ideatech registrations - all-final.csv').astype(str)
-    orgenizersDF = pd.read_csv('./assets/orgenizers/ideatech registrations - all-final.csv').astype(str)
+    orgenizersDF = pd.read_csv('./assets/orgenizers/ideaTECH organisers.csv').astype(str)
 
     #TODO: add competition DF
 
@@ -53,7 +53,7 @@ class TabDataController:
     @classmethod
     def readWorkshopParticipants(cls, workshopName = "react", workshop = Workshop()):
         df = cls.workshopsDF[workshopName]
-        #adding the participants and saving to cash
+        #adding the participants and saving to cache
         for index in range(0, df.shape[0]):
             workshop.addParticipant(firstname = df.at[index, 'firstname'], familyname = df.at[index, 'familyname'], email  = df.at[index, 'email'])
     
@@ -62,7 +62,7 @@ class TabDataController:
     def readCompetitionParticipants(cls):
         df = cls.competitionParticipantsDF
         participants = []
-        #adding the participants and saving to cash
+        #adding the participants and saving to cache
         for index in range(0, df.shape[0]):
             email = df.iat[index, cls.competitionParticipantsDFCols['email']]
             if email != 'nan':
@@ -87,8 +87,8 @@ class TabDataController:
 
     #return  list of Users from csv ideatech registrations
     @classmethod
-    def readCash(cls, cashPath = './assets/cash/test.csv'):
-        df = pd.read_csv(cashPath, usecols=cls.cashCols).astype(str)
+    def readcache(cls, cachePath = './assets/cache/test.csv'):
+        df = pd.read_csv(cachePath, usecols=cls.cacheCols).astype(str)
         adresses = []
         tmp = {
             'email' :'',
@@ -110,7 +110,7 @@ class TabDataController:
     def readOrgenizers(cls):
         df = cls.orgenizersDF
         orgenizers = []
-        #adding the participants and saving to cash
+        #adding the participants and saving to cache
         for index in range(0, df.shape[0]):
             email = df.iat[index, cls.orgenizersDFCols['email']]
             if email != 'nan':
@@ -121,8 +121,30 @@ class TabDataController:
                     email=email,
                     familyname=familyname,
                     firstname=firstname,
+                    role='orgenizer'
                 ))
         
         return orgenizers
+
+            
+    @classmethod
+    def readTrainers(cls):
+        df = cls.trainerssDF
+        trainers = []
+        #adding the participants and saving to cache
+        for index in range(0, df.shape[0]):
+            email = df.iat[index, cls.orgenizersDFCols['email']]
+            if email != 'nan':
+                #register user
+                firstname = df.iat[index, cls.orgenizersDFCols['firstname']]
+                familyname = ''
+                trainers.append(User(
+                    email=email,
+                    familyname=familyname,
+                    firstname=firstname,
+                    role='trainer'
+                ))
+        
+        return trainers
 
 
