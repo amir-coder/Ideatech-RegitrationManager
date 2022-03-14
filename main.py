@@ -13,24 +13,6 @@ from lib.models.workshop import Workshop
 def main():
     MainController.sendEmails(mailsListPath='./assets/cache/workshops_cache.csv')
 
-    #print(url)
-
-
-# ai_workshop = Workshop(name= WorkshopEnum.ds.value)
-# TabDataController.readWorkshopParticipants(
-#     workshop=ai_workshop,
-#     workshopName='ds',
-# )
-
-# for participant in ai_workshop.getParticipants():
-#     print(participant.toDict())
-
-
-# #testing user generation
-#     user  = User("testpy9@gmail.com", 'Amir', 'Almamou')
-#     user.saveToDB()
-#     print(user.toDict())
-#     user.exportToQR()
 
 if __name__ == '__main__':
     main()

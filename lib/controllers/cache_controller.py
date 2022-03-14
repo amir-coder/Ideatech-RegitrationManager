@@ -1,13 +1,10 @@
-
-
 import pandas
 
-from lib.models.user import User
 
 
 class CacheController():
-    workshops_cache_path = './assets/cash/workshops_cash.csv'
-    participants_cache_path = './assets/cash/participants_cash.csv'
+    workshops_cache_path = './assets/cache/workshops_cache.csv'
+    participants_cache_path = './assets/cache/participants_cache.csv'
     cols = ['email', 'id']
     
     @classmethod
@@ -18,10 +15,10 @@ class CacheController():
             path = cls.workshops_cache_path if not isParticipant else cls.participants_cache_path
         df = pandas.read_csv(path, usecols=cls.cols)
         for user in users:
-            userCache = user.toCash()
+            userCache = user.tocache()
             if userCache['id'] != '000000000000000000000000':
                 df = df.append(userCache, ignore_index=True)
-                print('LOG: CacheController:' + userCache['id'] + ' added to cash')
+                print('LOG: CacheController:' + userCache['id'] + ' added to cache')
             else:
                 print('LOG: CacheController: cannot add ' + userCache['id'] + ' with default id')
         
