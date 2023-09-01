@@ -7,5 +7,6 @@ This Project includes:
 - Generate QRCodes
 - Read registrations data in csv format and register users in the database via REST API
 
+### This project is associated with:  
 [Nodejs API](https://github.com/amir-coder/Ideatech-registrations-server)   
 [Flutter client app](https://github.com/amir-coder/Ideatech-RegitrationManager)
